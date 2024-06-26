@@ -36,7 +36,8 @@ main() {
       if cd "${repo_dir}" && git fetch --quiet; then
         repo_base_name=$(basename "${repo_dir}")
         for tty in $(who | awk '{print $2}'); do
-          echo "Updates are available for ${repo_base_name}. Please run 'git pull' in '${repo_dir}' manually to apply changes." >"/dev/${tty}"
+          # Send the notification to the user's terminal (but ignore errors if the terminal is not available)
+          echo "Updates are available for ${repo_base_name}. Please run 'git pull' in '${repo_dir}' manually to apply changes." >"/dev/${tty}" 2>/dev/null || true
         done
       fi
     fi
