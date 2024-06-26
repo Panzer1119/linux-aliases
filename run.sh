@@ -33,24 +33,22 @@ main() {
     local repo_base_name
     local tty
     if [ -d "${repo_dir}/.git" ]; then
-      if cd "${repo_dir}" && git fetch --quiet; then
-        # Fetch the latest changes from the remote repository
-        (cd "${repo_dir}" && git fetch --quiet)
+      # Fetch the latest changes from the remote repository
+      (cd "${repo_dir}" && git fetch --quiet)
 
-        # Check if there are new commits
-        local sha_local
-        local sha_remote
-        sha_local=$(cd "${repo_dir}" && git rev-parse @)
-        sha_remote=$(cd "${repo_dir}" && git rev-parse @\{u\})
+      # Check if there are new commits
+      local sha_local
+      local sha_remote
+      sha_local=$(cd "${repo_dir}" && git rev-parse @)
+      sha_remote=$(cd "${repo_dir}" && git rev-parse @\{u\})
 
-        # Notify the user if there are new commits
-        if [ "${sha_local}" != "${sha_remote}" ]; then
-          repo_base_name=$(basename "${repo_dir}")
-          for tty in $(who | awk '{print $2}'); do
-            # Send the notification to the user's terminal (but ignore errors if the terminal is not available)
-            echo "Updates are available for ${repo_base_name}. Please run 'git pull' in '${repo_dir}' manually to apply changes." >"/dev/${tty}" 2>/dev/null || true
-          done
-        fi
+      # Notify the user if there are new commits
+      if [ "${sha_local}" != "${sha_remote}" ]; then
+        repo_base_name=$(basename "${repo_dir}")
+        for tty in $(who | awk '{print $2}'); do
+          # Send the notification to the user's terminal (but ignore errors if the terminal is not available)
+          echo "Updates are available for ${repo_base_name}. Please run 'git pull' in '${repo_dir}' manually to apply changes." >"/dev/${tty}" 2>/dev/null || true
+        done
       fi
     fi
   }
