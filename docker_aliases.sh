@@ -1,1 +1,3 @@
-alias dc='docker composd'
+#!/bin/bash
+
+alias dc='docker compose'
