@@ -29,7 +29,7 @@ main() {
 
   # Source all alias files in the repository, so the aliases are still usable after this install script exits
   local file
-  for file in "${repo_dir}"/*; do
+  for file in "${repo_dir}/aliases"/*; do
     [ -f "${file}" ] && source "${file}"
   done
 }
