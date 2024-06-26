@@ -27,13 +27,14 @@ main() {
   # Repository URL
   local repo_url="https://github.com/Panzer1119/linux-aliases.git"
   local repo_dir="${HOME}/repositories/git/linux-aliases"
+  local packages=("git" "eza")
 
   # Check if running as root
   if [ "$(id -u)" -eq 0 ]; then
     echo "Running as root. Installing required packages..."
 
     # Install packages
-    install_packages git eza
+    install_packages "${packages[@]}"
   else
     echo "Not running as root. Skipping package installation..."
   fi
@@ -48,6 +49,14 @@ main() {
       return
     fi
   fi
+
+  # Check if the packages are installed
+  local package
+  for package in "${packages[@]}"; do
+    if ! command_exists "${package}"; then
+      echo "The '${package}' package is not installed. Please install it manually if you want to use all aliases."
+    fi
+  done
 
   # Execute run.sh script from the cloned repository inside ~/.bashrc, but only if not already in .bashrc
   if ! grep -q "source ${repo_dir}/run.sh" "${HOME}/.bashrc"; then
