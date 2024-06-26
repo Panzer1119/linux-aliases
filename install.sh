@@ -5,11 +5,38 @@ command_exists() {
     command -v "${1}" >/dev/null 2>&1
 }
 
+# Function to install the required packages
+install_packages() {
+  local packages="${@}"
+  if command_exists apt-get; then
+    sudo apt-get update
+    sudo apt-get install -y ${packages}
+  elif command_exists dnf; then
+    sudo dnf install -y ${packages}
+  elif command_exists yum; then
+    sudo yum install -y ${packages}
+  elif command_exists zypper; then
+    sudo zypper install -y ${packages}
+  else
+    echo "No package manager found. Please install the required packages manually."
+  fi
+}
+
 # Main function
 main() {
   # Repository URL
   local repo_url="https://github.com/Panzer1119/linux-aliases.git"
   local repo_dir="${HOME}/repositories/git/linux-aliases"
+
+  # Check if running as root
+  if [ "$(id -u)" -eq 0 ]; then
+    echo "Running as root. Installing required packages..."
+
+    # Install packages
+    install_packages git eza
+  else
+    echo "Not running as root. Skipping package installation..."
+  fi
 
   # Clone the repository if it doesn't exist
   if [ ! -d "${repo_dir}" ]; then
