@@ -7,16 +7,16 @@ command_exists() {
 
 # Function to install the required packages
 install_packages() {
-  local packages="${@}"
+  local packages=("$@")
   if command_exists apt-get; then
     sudo apt-get update
-    sudo apt-get install -y ${packages}
+    sudo apt-get install -y "${packages[@]}"
   elif command_exists dnf; then
-    sudo dnf install -y ${packages}
+    sudo dnf install -y "${packages[@]}"
   elif command_exists yum; then
-    sudo yum install -y ${packages}
+    sudo yum install -y "${packages[@]}"
   elif command_exists zypper; then
-    sudo zypper install -y ${packages}
+    sudo zypper install -y "${packages[@]}"
   else
     echo "No package manager found. Please install the required packages manually."
   fi
