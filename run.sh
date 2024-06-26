@@ -46,6 +46,11 @@ main() {
       if [ "${sha_local}" != "${sha_remote}" ]; then
         repo_base_name=$(basename "${repo_dir}")
         for tty in $(who | awk '{print $2}'); do
+          # Check user of /dev/${tty} is the same as the current user
+          if [ "$(stat -c %U "/dev/${tty}")" != "${USER}" ]; then
+            continue
+          fi
+
           # Send the notification to the user's terminal (but ignore errors if the terminal is not available)
           echo "Updates are available for ${repo_base_name}. Please run 'git pull' in '${repo_dir}' manually to apply changes." >"/dev/${tty}" 2>/dev/null || true
         done
