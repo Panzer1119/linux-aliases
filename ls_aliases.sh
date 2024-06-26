@@ -1,0 +1,4 @@
+alias lsa='eza --long --header --group --all --color=always --group-directories-first --time-style long-iso --git --icons=always --classify=always --binary'
+alias slsa='sudo eza --long --header --group --all --color=always --group-directories-first --time-style long-iso --git --icons=always --classify=always --binary'
+alias wlsa='watch --color eza --long --header --group --all --color=always --group-directories-first --time-style long-iso --git --icons=always --classify=always --binary'
+alias wslsa='watch --color sudo eza --long --header --group --all --color=always --group-directories-first --time-style long-iso --git --icons=always --classify=always --binary'
