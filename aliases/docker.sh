@@ -17,3 +17,7 @@ alias dclf='docker compose logs -f'
 
 # Docker compose down
 alias dcd='docker compose down'
+
+# Docker compose restart
+alias dcr='docker compose restart'
+alias dcrlf='docker compose restart && docker compose logs -f'
